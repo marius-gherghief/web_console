@@ -13,6 +13,6 @@ A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https
 * Python3 support
 
 ## Installation
-```
+```bash
 pip install git+https://github.com/symmetry-apps/web_console.git
 ```
