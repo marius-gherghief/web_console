@@ -25,3 +25,4 @@ pip install git+https://github.com/symmetry-apps/web_console.git
  
 ## Running the service
  * Just run the **python app.py**
+ * On **Windows** run the command **pythonw app.py**, to execute the process in the background.
