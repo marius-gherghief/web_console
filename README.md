@@ -1,4 +1,4 @@
-# web-console
+# web_console
 
 A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https://github.com/lins05/slackbot).
 
@@ -14,5 +14,5 @@ A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https
 
 ## Installation
 ```
-pip install git+https://github.com/symmetry-apps/web-console.git
+pip install git+https://github.com/symmetry-apps/web_console.git
 ```

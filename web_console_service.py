@@ -18,7 +18,7 @@ def main():
     logging.basicConfig(**kw)
     logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.WARNING)
 
-    logging.info("Starting service web-console...")
+    logging.info("Starting service web_console...")
 
     bot = Bot()
     try:

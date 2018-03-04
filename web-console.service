@@ -4,10 +4,10 @@ Description=Symmetry Apps - Web Console Service
 [Service]
 Environment=PYTHONPATH=/root/.pyenv/versions/3.5.2/lib/python3.5/site-packages/
 Environment=PATH=/root/.pyenv/shims:/root/.pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-ExecStart=/bin/sh -c '/root/.pyenv/versions/3.5.2/bin/python /opt/web-console/web_console_service.py >> /var/log/symmetry-apps/web-console.log 2>&1'
+ExecStart=/bin/sh -c '/root/.pyenv/versions/3.5.2/bin/python /opt/web_console/web_console_service.py >> /var/log/symmetry-apps/web_console.log 2>&1'
 Restart=always
-# StandardOutput=/var/log/symmetry-apps/web-console-out.log
-# StandardError=/var/log/symmetry-apps/web-console-err.log
+# StandardOutput=/var/log/symmetry-apps/web_console-out.log
+# StandardError=/var/log/symmetry-apps/web_console-err.log
 
 [Install]
 WantedBy=multi-user.target
