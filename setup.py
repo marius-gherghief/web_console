@@ -13,11 +13,6 @@ install_requires = (
     'cryptography>=2.1.4'
 )  # yapf: disable
 
-includes = (
-    'lib',
-    'slackbot'
-)
-
 excludes = (
     '*test*',
     '*local_settings*',
@@ -31,7 +26,7 @@ setup(name='web_console',
       author_email='marius.gherghief@gmail.com',
       url='https://github.com/symmetry-apps/web_console.git',
       platforms=['Any'],
-      packages=find_packages(exclude=excludes, include=includes),
+      packages=find_packages(exclude=excludes),
       install_requires=install_requires,
       classifiers=['Development Status :: 0.1.1 - Beta',
                    'License :: GNU General Public License v3.0',
