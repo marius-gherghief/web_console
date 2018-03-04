@@ -1,7 +1,7 @@
 from os.path import join, dirname
 from setuptools import setup, find_packages
 
-__version__ = open(join(dirname(__file__), 'slackbot/VERSION')).read().strip()
+__version__ = open(join(dirname(__file__), 'web_console/VERSION')).read().strip()
 
 install_requires = (
     'requests>=2.4.0',
