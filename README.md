@@ -10,7 +10,7 @@ A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https
 * Upload files to your environment by attaching them into the slack private chat.
 * Each slack chat channel has it's onw ssh session.
 * Use slack channel to chat with multiple environment at once, through command **ssh <os_specific_command>**
-* Python3 support
+* Python3.5 support
 
 ## Installation
 ```bash
