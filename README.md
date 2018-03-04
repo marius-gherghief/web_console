@@ -23,4 +23,4 @@ pip install git+https://github.com/symmetry-apps/web_console.git
  
  
 ## Running the service
- * Just run the **app.py**
+ * Just run the **python app.py**
