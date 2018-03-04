@@ -1,4 +1,5 @@
 import pytest
+import web_console
 
 TEST_ALIASES = ['!', '$', 'botbro']
 FAKE_BOT_ID = 'US99999'
@@ -47,12 +48,12 @@ class FakeMessage:
 
 @pytest.fixture()
 def setup_aliases(monkeypatch):
-    monkeypatch.setattr('slackbot.settings.ALIASES', ','.join(TEST_ALIASES))
+    monkeypatch.setattr('web_console.settings.ALIASES', ','.join(TEST_ALIASES))
 
 
 @pytest.fixture()
 def dispatcher(monkeypatch):
-    monkeypatch.setattr('slackbot.settings.DEFAULT_REPLY', 'sorry')
+    monkeypatch.setattr('web_console.settings.DEFAULT_REPLY', 'sorry')
     dispatcher = web_console.dispatcher.MessageDispatcher(None, None, None)
     monkeypatch.setattr(dispatcher, '_get_bot_id', lambda: FAKE_BOT_ID)
     monkeypatch.setattr(dispatcher, '_get_bot_name', lambda: FAKE_BOT_NAME)
@@ -156,14 +157,14 @@ def test_direct_message_with_name(dispatcher):
 
 
 def test_dispatch_msg(dispatcher, monkeypatch):
-    monkeypatch.setattr('slackbot.dispatcher.Message', FakeMessage)
+    monkeypatch.setattr('web_console.dispatcher.Message', FakeMessage)
     dispatcher.dispatch_msg(
         ['reply_to', {'text': 'okay', 'channel': FAKE_CHANNEL}])
     assert dispatcher._client.rtm_messages == [(FAKE_CHANNEL, 'okay')]
 
 
 def test_dispatch_msg_exception(dispatcher, monkeypatch):
-    monkeypatch.setattr('slackbot.dispatcher.Message', FakeMessage)
+    monkeypatch.setattr('web_console.dispatcher.Message', FakeMessage)
     dispatcher.dispatch_msg(
         ['reply_to', {'text': 'raising', 'channel': FAKE_CHANNEL}])
     assert len(dispatcher._client.rtm_messages) == 1
@@ -173,7 +174,7 @@ def test_dispatch_msg_exception(dispatcher, monkeypatch):
 
 
 def test_dispatch_msg_errors_to(dispatcher, monkeypatch):
-    monkeypatch.setattr('slackbot.dispatcher.Message', FakeMessage)
+    monkeypatch.setattr('web_console.dispatcher.Message', FakeMessage)
     dispatcher._errors_to = 'D12345'
     dispatcher.dispatch_msg(
         ['reply_to', {'text': 'raising', 'channel': FAKE_CHANNEL}])
@@ -186,14 +187,14 @@ def test_dispatch_msg_errors_to(dispatcher, monkeypatch):
 
 
 def test_dispatch_default_msg(dispatcher, monkeypatch):
-     monkeypatch.setattr('slackbot.dispatcher.Message', FakeMessage)
+     monkeypatch.setattr('web_console.dispatcher.Message', FakeMessage)
      dispatcher.dispatch_msg(
          ['respond_to', {'text': 'no_plugin_defined', 'channel': FAKE_CHANNEL}])
      assert dispatcher._client.rtm_messages == [(FAKE_CHANNEL, 'sorry')]
 
 
 def test_dispatch_default_msg_plugin(dispatcher, monkeypatch):
-    monkeypatch.setattr('slackbot.dispatcher.Message', FakeMessage)
+    monkeypatch.setattr('web_console.dispatcher.Message', FakeMessage)
     dispatcher.dispatch_msg(
         ['respond_to', {'text': 'default_okay', 'channel': FAKE_CHANNEL}])
     assert dispatcher._client.rtm_messages == [(FAKE_CHANNEL, 'default_okay')]

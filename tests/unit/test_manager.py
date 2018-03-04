@@ -4,7 +4,7 @@ import sys
 
 import pytest
 
-from slackbot import PluginsManager
+from web_console import PluginsManager
 
 
 @pytest.fixture(scope='session', autouse=True)

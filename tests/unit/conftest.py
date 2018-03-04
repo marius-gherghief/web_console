@@ -10,5 +10,5 @@ def mock_settings(monkeypatch):
             return None
 
     settings = Settings()
-    monkeypatch.setattr('slackbot.settings', settings)
-    monkeypatch.setattr('slackbot.dispatcher.settings', settings)
+    monkeypatch.setattr('web_console.settings', settings)
+    monkeypatch.setattr('web_console.dispatcher.settings', settings)

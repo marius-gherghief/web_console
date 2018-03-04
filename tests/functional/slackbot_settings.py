@@ -4,6 +4,7 @@ os.environ['SLACKBOT_TEST'] = 'true'
 
 ALIASES = ",".join(["!", "$"])
 
+
 def load_driver_settings():
     KEYS = (
         'testbot_apitoken',

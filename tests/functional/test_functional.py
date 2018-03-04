@@ -17,6 +17,7 @@ from tests.functional.slackbot_settings import (
 
 TRAVIS = 'TRAVIS' in os.environ
 
+
 def stop_proxy():
     os.system('slackbot-test-ctl stopproxy')
 

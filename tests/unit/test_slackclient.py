@@ -1,6 +1,6 @@
 import pytest
 
-from slackbot import SlackClient
+from web_console import SlackClient
 from . import slackclient_data
 
 
