@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --python=/usr/bin/python --with python-virtualenv
+	dh $@ --python=/usr/bin/python --with python-virtualenv --preinstall "pip>=9"
 
 override_dh_virtualenv:
 	dh_virtualenv \
