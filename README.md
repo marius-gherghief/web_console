@@ -26,3 +26,9 @@ pip install git+https://github.com/symmetry-apps/web_console.git
 ## Running the service
  * Just run the **python app.py**
  * On **Windows** run the command **pythonw app.py**, to execute the process in the background.
+ 
+ 
+## Building deb package using [dh-virtualenv](https://github.com/spotify/dh-virtualenv)
+ * Install **dh-virtualenv** version 1.0.0 or newer
+ * Run the command **dpkg-buildpackage -us -uc** from the project path
+ * Look for the deb file generated, one level up from the project folder

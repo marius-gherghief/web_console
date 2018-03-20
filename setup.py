@@ -18,7 +18,7 @@ excludes = (
     '*local_settings*',
 )  # yapf: disable
 
-setup(name='web_console',
+setup(name='web-console',
       version=__version__,
       license='GPL-3.0',
       description='A local ssh - chat bot for Slack',
