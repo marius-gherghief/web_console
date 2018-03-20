@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --with python-virtualenv
+	dh $@ --python=/usr/bin/python --with python-virtualenv
 
 override_dh_virtualenv:
 	dh_virtualenv \
@@ -9,4 +9,4 @@ override_dh_virtualenv:
 		--extra-pip-arg "--no-deps" \
 		--extra-pip-arg "--no-cache-dir" \
 		--use-system-packages
-#		--extra-virtualenv-arg "--python=python3"
+		--extra-virtualenv-arg "--python=/usr/bin/python"
