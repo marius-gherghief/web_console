@@ -10,13 +10,14 @@ install_requires = (
     'six>=1.10.0',
     'paramiko>=2.1.1',
     'pyOpenSSL>=17.5.0',
-    'cryptography>=2.1.4'
-)  # yapf: disable
+    'cryptography>=2.1.4',
+    'configparser>=3.5.0'
+)
 
 excludes = (
     '*test*',
     '*local_settings*',
-)  # yapf: disable
+)
 
 setup(name='web-console',
       version=__version__,

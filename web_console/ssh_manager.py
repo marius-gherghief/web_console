@@ -137,6 +137,7 @@ class ShellHandler:
     def closed(self, value):
         self._closed = value
 
+
 logging.info("Starting SSH Manager for user: %s, password: %s and port: %s" % (settings.SSH_USER,
                                                                                settings.SSH_PASSWORD,
                                                                                settings.SSH_PORT))

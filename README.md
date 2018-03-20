@@ -32,3 +32,13 @@ pip install git+https://github.com/symmetry-apps/web_console.git
  * Install **dh-virtualenv** version 1.0.0 or newer
  * Run the command **dpkg-buildpackage -us -uc** from the project path
  * Look for the deb file generated, one level up from the project folder
+ 
+## Building executable file using [pyinstaller](https://github.com/pyinstaller/pyinstaller)
+ * Install **pyinstaller**:
+ ```bash
+ pip install pyinstaller
+ ```
+ * Build executable:
+ ```bash
+ pyinstaller web_console/app.py -F --name web-console
+ ```

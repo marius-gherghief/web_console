@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import os
+import logging
+from configparser import ConfigParser
 
-DEBUG = False
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+DEBUG = True
 
 PLUGINS = [
     'web_console.plugins',
 ]
 
 ERRORS_TO = None
+
+SSH_PORT = 22
+SSH_USER = None
+SSH_PASSWORD = None
 
 # API_TOKEN = '###token###'
 
@@ -37,20 +46,42 @@ effect.
 DEFAULT_REPLY = None
 
 for key in os.environ:
-    if key[:9] == 'SLACKBOT_':
-        name = key[9:]
+    if key[:3] == 'WC_':
+        name = key[3:]
         globals()[name] = os.environ[key]
 
-try:
-    from web_console.slackbot_settings import *
-except ImportError:
-    try:
-        from local_settings import *
-    except ImportError:
-        pass
+config_path = os.path.join(os.getcwd(), 'config.ini')
+if os.path.isfile(config_path):
+    config_parser = ConfigParser(empty_lines_in_values=False)
+    config_parser.optionxform = lambda s: s
+    with open(config_path, "r") as config_file:
+        config_parser.read_file(config_file)
 
-# convert default_reply to DEFAULT_REPLY
-try:
-    DEFAULT_REPLY = default_reply
-except NameError:
-    pass
+    DEBUG = config_parser.getboolean("MAIN", "DEBUG")
+    logger.debug("Using option %s = %s" % ("DEBUG", DEBUG))
+
+    API_TOKEN = config_parser.get("MAIN", "API_TOKEN")
+
+    DEFAULT_REPLY = config_parser.get("MAIN", "DEFAULT_REPLY")
+    logger.debug("Using option %s = %s" % ("DEFAULT_REPLY", DEFAULT_REPLY))
+
+    ERRORS_TO = config_parser.get("MAIN", "ERRORS_TO")
+    logger.debug("Using option %s = %s" % ("ERRORS_TO", ERRORS_TO))
+
+    plugins_config = config_parser.get("MAIN", "PLUGINS")
+    PLUGINS = plugins_config.split(",")
+    logger.debug("Using option %s = %s" % ("PLUGINS", PLUGINS))
+
+    SSH_USER = config_parser.get("SSH", "USER")
+    logger.debug("Using option %s = %s" % ("SSH_USER", SSH_USER))
+
+    SSH_PASSWORD = config_parser.get("SSH", "PASSWORD")
+
+    SSH_PORT = config_parser.getint("SSH", "PORT")
+    logger.debug("Using option %s = %s" % ("SSH_PORT", SSH_PORT))
+
+    logger.info("Successfully loaded config from ini file")
+else:
+    logger.error("Failed to locate the config file: %s" % config_path)
+
+os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = os.path.join(os.getcwd(), 'cacert.pem')
