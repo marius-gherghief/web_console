@@ -60,6 +60,7 @@ class SlackSSHManager(Singleton):
 class ShellHandler:
 
     def __init__(self, host, user, psw, port, msg):
+        # logging.info("Data used: user=%s, pwd=%s" % (user, psw))
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.ssh.connect(host, username=user, password=psw, port=port)

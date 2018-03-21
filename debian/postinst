@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    echo "Public key file not found, generating one for you"
+    ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa.pub -q -N ""
+fi
+
+if [ ! -f ~/.ssh/authorized_keys ]; then
+    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+    echo "Created ~/.ssh/authorized_keys with your public key"
+else
+    key_content=`cat ~/.ssh/id_rsa.pub`
+    if grep -Fxq "'$key_content'" ~/.ssh/authorized_keys; then
+        echo "Found your public key in ~/.ssh/authorized_keys"
+    else
+        cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+        echo "Added your public key in ~/.ssh/authorized_keys"
+    fi
+fi
+
+if [ ! -d /var/log/symmetry-apps ]; then
+  mkdir -p /var/log/symmetry-apps/
+fi
+
+cd /opt/web-console
+current_dir="$(echo "$PWD" | sed -e 's/[()&/]/\\&/g')"
+
+if [ "$(pidof systemd)" ]; then
+    sed -i "s/WEB_CONSOLE_DIR/${current_dir}/g" web-console.service
+    mv -f web-console.service /etc/systemd/system/
+    systemctl enable web-console.service
+    systemctl daemon-reload
+    service web-console start
+else
+    echo "The process systemd is not running, skipping service installation"
+fi

@@ -1,12 +1,6 @@
 #!/usr/bin/make -f
 
-%:
-	dh $@ --python=/usr/bin/python --with python-virtualenv --preinstall "pip>=9"
+#DH_VERBOSE = 1
 
-override_dh_virtualenv:
-	dh_virtualenv \
-		--extra-pip-arg "--ignore-installed" \
-		--extra-pip-arg "--no-deps" \
-		--extra-pip-arg "--no-cache-dir" \
-		--use-system-packages
-		--extra-virtualenv-arg "--python=/usr/bin/python"
+%:
+	dh $@

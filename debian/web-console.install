@@ -1,0 +1,4 @@
+cacert.pem /opt/web-console/
+config.ini /opt/web-console/
+web-console /opt/web-console/
+web-console.service /opt/web-console/
