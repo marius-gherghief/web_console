@@ -2,7 +2,7 @@
 
 import os
 import logging
-from configparser import ConfigParser
+from configparser import ConfigParser, NoOptionError
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -57,28 +57,52 @@ if os.path.isfile(config_path):
     with open(config_path, "r") as config_file:
         config_parser.read_file(config_file)
 
-    DEBUG = config_parser.getboolean("MAIN", "DEBUG")
-    logger.debug("Using option %s = %s" % ("DEBUG", DEBUG))
+    try:
+        DEBUG = config_parser.getboolean("MAIN", "DEBUG")
+        logger.debug("Using option %s = %s" % ("DEBUG", DEBUG))
+    except NoOptionError:
+        pass
 
-    API_TOKEN = config_parser.get("MAIN", "API_TOKEN")
+    try:
+        API_TOKEN = config_parser.get("MAIN", "API_TOKEN")
+    except NoOptionError:
+        pass
 
-    DEFAULT_REPLY = config_parser.get("MAIN", "DEFAULT_REPLY")
-    logger.debug("Using option %s = %s" % ("DEFAULT_REPLY", DEFAULT_REPLY))
+    try:
+        DEFAULT_REPLY = config_parser.get("MAIN", "DEFAULT_REPLY")
+        logger.debug("Using option %s = %s" % ("DEFAULT_REPLY", DEFAULT_REPLY))
+    except NoOptionError:
+        pass
 
-    ERRORS_TO = config_parser.get("MAIN", "ERRORS_TO")
-    logger.debug("Using option %s = %s" % ("ERRORS_TO", ERRORS_TO))
+    try:
+        ERRORS_TO = config_parser.get("MAIN", "ERRORS_TO")
+        logger.debug("Using option %s = %s" % ("ERRORS_TO", ERRORS_TO))
+    except NoOptionError:
+        pass
 
-    plugins_config = config_parser.get("MAIN", "PLUGINS")
-    PLUGINS = plugins_config.split(",")
-    logger.debug("Using option %s = %s" % ("PLUGINS", PLUGINS))
+    try:
+        plugins_config = config_parser.get("MAIN", "PLUGINS")
+        PLUGINS = plugins_config.split(",")
+        logger.debug("Using option %s = %s" % ("PLUGINS", PLUGINS))
+    except NoOptionError:
+        pass
 
-    SSH_USER = config_parser.get("SSH", "USER")
-    logger.debug("Using option %s = %s" % ("SSH_USER", SSH_USER))
+    try:
+        SSH_USER = config_parser.get("SSH", "USER")
+        logger.debug("Using option %s = %s" % ("SSH_USER", SSH_USER))
+    except NoOptionError:
+        pass
 
-    SSH_PASSWORD = config_parser.get("SSH", "PASSWORD")
+    try:
+        SSH_PASSWORD = config_parser.get("SSH", "PASSWORD")
+    except NoOptionError:
+        pass
 
-    SSH_PORT = config_parser.getint("SSH", "PORT")
-    logger.debug("Using option %s = %s" % ("SSH_PORT", SSH_PORT))
+    try:
+        SSH_PORT = config_parser.getint("SSH", "PORT")
+        logger.debug("Using option %s = %s" % ("SSH_PORT", SSH_PORT))
+    except NoOptionError:
+        pass
 
     logger.info("Successfully loaded config from ini file")
 else:

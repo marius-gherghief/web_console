@@ -29,9 +29,12 @@ class PluginsManager(object):
         else:
             plugins = 'slackbot.plugins'
 
-        from web_console.plugins import hello, symmetry_admin_plugin, upload
-        # for plugin in plugins:
-        #     self._load_plugins(plugin)
+        # from web_console.plugins import symmetry_admin_plugin
+        try:
+            for plugin in plugins:
+                self._load_plugins(plugin)
+        except AttributeError and IndexError:
+            from web_console.plugins import symmetry_admin_plugin
 
     def _load_plugins(self, plugin):
         logger.info('loading plugin "%s"', plugin)
