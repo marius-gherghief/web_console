@@ -9,9 +9,11 @@ install_requires = (
     'slacker>=0.9.50',
     'six>=1.10.0',
     'paramiko>=2.1.1',
+    'pytest>=2.9.1',
     'pyOpenSSL>=17.5.0',
     'cryptography>=2.1.4',
-    'configparser>=3.5.0'
+    'configparser>=3.5.0',
+    'pyinstaller>=3.3.1'
 )
 
 excludes = (
