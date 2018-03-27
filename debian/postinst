@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 if [ ! -f ~/.ssh/id_rsa.pub ]; then
     echo "Public key file not found, generating one for you"
-    ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa.pub -q -N ""
+    # removed '.pub' extension at the end of the file.
+    # It is automatically created for the private key file, in the command below.
+    ssh-keygen -b 2048 -t rsa -f ~/.ssh/id_rsa -q -N ""
 fi
 
 if [ ! -f ~/.ssh/authorized_keys ]; then

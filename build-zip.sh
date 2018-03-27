@@ -10,10 +10,11 @@ cp -f config.ini dist/
 cp -f web-console.service dist/
 cp -f cacert.pem dist/
 cp -f debian/postinst dist/
+cp -f web_console/VERSION dist/
 
 version=`cat web_console/VERSION`
-dist_folder = "dist/web-console-$version"
+mkdir dist/tmp-build
 
-mv "!($dist_folder) $dist_folder"
-
-(cd dist ; zip -r "web-console-$version.zip $dist_folder")
+find dist/ ! -regex "dist/tmp-build/.*" ! -regex "dist/tmp-build" ! -regex 'dist/' -exec mv '{}' "dist/tmp-build" \;
+mv dist/tmp-build dist/web-console
+(cd dist ; zip -r "web-console-$version.zip" "web-console")

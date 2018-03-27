@@ -1,16 +1,15 @@
-#!/usr/bin/env bash
+@echo off
 
-rm -rf dist
-rm -rf build
-rm -f web-console.spec
-rm -f web-console_*.dsc
-rm -f web-console_*.tar.gz
-rm -f web-console_*.changes
-rm -f web-console_*.deb
+rd /s/q dist
+rd /s/q build
+del /f web-console.spec
+del /f web-console.wixobj
+del /f WebConsoleInstaller.msi
+del /f WebConsoleInstaller.wixpdb
 
 pyinstaller web_console/app.py -F --name web-console
-cp -f config.ini dist/
-cp -f web-console.service dist/
-cp -f cacert.pem dist/
-cp -Rf debian dist/
-(cd dist ; dpkg-buildpackage -us -uc)
+copy /y config.ini dist\config.ini
+copy /y cacert.pem dist\cacert.pem
+
+"C:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe" -arch x86 web-console.wxs
+"C:\Program Files (x86)\WiX Toolset v3.11\bin\Light.exe" -out "WebConsoleInstaller.msi" web-console.wixobj
