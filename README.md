@@ -13,32 +13,17 @@ A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https
 * Python3.5 support
 
 ## Installation
-```bash
-pip install git+https://github.com/symmetry-apps/web_console.git
-```
+ * Download the correct distribution from the [Releases](https://github.com/symmetry-apps/web_console/releases) section.
+   * For **linux**, manual installation, download [web-console-0.1.1.zip](https://github.com/symmetry-apps/web_console/releases/download/0.1.1/web-console-0.1.1.zip)
+   * For **windows** automatic install, download [WebConsoleInstaller.msi](https://github.com/symmetry-apps/web_console/releases/download/0.1.1/WebConsoleInstaller.msi)
 
 ## Setup
- * Copy file **slackbot_settings_default.py** to **slackbot_setting.py** and adjust the settings inside.
- * On Windows, install a sshd server and start it. Tested with: [**MobaSSH**](https://mobassh.mobatek.net/)
+ * Edit the file **config.ini** to adjust the settings inside.
+ * On **windows**, the msi package contains [**MobaSSH**](https://mobassh.mobatek.net/) as the ssh server.
  * For more details, please visit the [Wiki](https://github.com/symmetry-apps/symmetry-ros/wiki/Enable-Slack-SSH-for-ROS-administration)
  
  
 ## Running the service
- * Just run the **python app.py**
- * On **Windows** run the command **pythonw app.py**, to execute the process in the background.
+ * On **linux** after running the **postinst** script, the service **web-console** is configured to run at startup
+ * On **windows** the web-console is run at startup. To adjust the **MobaSSH** settings, run the app from the Start Menu -> Web Console
  
- 
-## Building deb package using [dh-virtualenv](https://github.com/spotify/dh-virtualenv)
- * Install **dh-virtualenv** version 1.0.0 or newer
- * Run the command **dpkg-buildpackage -us -uc** from the project path
- * Look for the deb file generated, one level up from the project folder
- 
-## Building executable file using [pyinstaller](https://github.com/pyinstaller/pyinstaller)
- * Install **pyinstaller**:
- ```bash
- pip install pyinstaller
- ```
- * Build executable:
- ```bash
- pyinstaller web_console/app.py -F --name web-console
- ```
