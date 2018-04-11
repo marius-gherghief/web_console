@@ -89,10 +89,10 @@ class ShellHandler:
     def read(self):
         while True:
             if self.channel.recv_ready():
-                data = '\t'.join(self.channel.recv(9999).decode("utf-8").split(' '))
+                data = '\t'.join(self.channel.recv(512).decode("utf-8").split(' '))
                 chat_data = re.compile(r'\x1b[^m]*m')
                 self._message.reply(chat_data.sub('', data))
-            time.sleep(0.5)
+            time.sleep(0.3)
 
     def execute(self, cmd, no_enter=False):
         logging.info("Executing command: %s" % cmd)

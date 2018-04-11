@@ -45,9 +45,16 @@ def ssh_key_commands(message):
 
     if 'ctrl+c' in cmd.lower() or 'control+c' in cmd.lower():
         sh.execute(chr(3), no_enter=True)
+    elif 'ctrl+x' in cmd.lower() or 'control+x' in cmd.lower():
+        sh.execute(chr(24), no_enter=True)
+    elif 'ctrl+z' in cmd.lower() or 'control+z' in cmd.lower():
+        sh.execute(chr(26), no_enter=True)
     else:
         cmd = cmd[cmd.find('key ') + 4:]
-        sh.execute(cmd, no_enter=True)
+        if cmd.isdigit():
+            sh.execute(chr(int(cmd)), no_enter=True)
+        else:
+            sh.execute(cmd, no_enter=True)
 
 
 @respond_to('attach .*', re.IGNORECASE)
