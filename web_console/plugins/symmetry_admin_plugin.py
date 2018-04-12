@@ -1,5 +1,6 @@
 # coding: UTF-8
 import re
+import html
 
 from web_console.bot import listen_to
 from web_console.bot import respond_to
@@ -34,6 +35,11 @@ def ssh_reply(message):
         sh.execute_download(message)
         return
 
+    urls = re.findall('<http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+>', cmd)
+    if urls and len(urls) > 0:
+        for url in urls:
+            cmd = cmd.replace(url, url[1:-1])
+    cmd = html.unescape(cmd)
     sh.execute(cmd)
 
 
