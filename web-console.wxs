@@ -36,7 +36,7 @@
 					<Shortcut Id="WebConsoleShortcut" Directory="StartupFolder" Name="Web Console" Description="Slack Bot ssh interface for distributed environments" WorkingDirectory="INSTALLFOLDER"/>
 					<Shortcut Id="WebConsoleStartMenuShortcut" Directory="ApplicationProgramsFolder" Name="Web Console" Description="Slack Bot ssh interface for distributed environments" WorkingDirectory="INSTALLFOLDER"/>
 				</File>
-				<File Name="config.ini" Source="dist\\config.ini" Checksum="yes" KeyPath="no"/>
+				<File Name="config-sample.ini" Source="dist\\config-sample.ini" Checksum="yes" KeyPath="no"/>
 				<File Name="cacert.pem" Source="dist\\cacert.pem" Checksum="yes" KeyPath="no"/>
 				<File Id="SSHServiceInstaller" Name="moba_ssh_server_home_1.60.exe" Source="windows\\moba_ssh_server_home_1.60.exe" Checksum="yes" KeyPath="no">
 					<Shortcut Id="SSHServiceStartMenuShortcut" Directory="ApplicationProgramsFolder" Name="Moba SSH Server" Description="Moda ssh server home edition, version 1.60" WorkingDirectory="INSTALLFOLDER"/>

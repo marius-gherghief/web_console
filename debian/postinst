@@ -26,6 +26,10 @@ fi
 cd /opt/web-console
 current_dir="$(echo "$PWD" | sed -e 's/[()&/]/\\&/g')"
 
+if [ ! -f /opt/web-console/config.ini ]; then
+    mv /opt/web-console/config-sample.ini /opt/web-console/config.ini
+fi
+
 if [ "$(pidof systemd)" ]; then
     sed -i "s/WEB_CONSOLE_DIR/${current_dir}/g" web-console.service
     mv -f web-console.service /etc/systemd/system/

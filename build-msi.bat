@@ -8,7 +8,7 @@ del /f WebConsoleInstaller.msi
 del /f WebConsoleInstaller.wixpdb
 
 pyinstaller web_console/app.py -F --name web-console
-copy /y config.ini dist\config.ini
+copy /y config-sample.ini dist\config-sample.ini
 copy /y cacert.pem dist\cacert.pem
 
 "C:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe" -arch x86 web-console.wxs

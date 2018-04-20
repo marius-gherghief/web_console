@@ -23,6 +23,7 @@ def ssh_reply(message):
 @respond_to('.*', re.IGNORECASE)
 def ssh_reply(message):
     cmd = message.body['text']
+
     if cmd.lower().startswith('attach '):
         return
 
@@ -69,3 +70,4 @@ def attach_reply(message):
     cmd = message.body['text']
     cmd = cmd[cmd.find('attach ') + 7:]
     message.channel.upload_file('', cmd.strip())
+

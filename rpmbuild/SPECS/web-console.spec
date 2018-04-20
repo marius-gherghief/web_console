@@ -29,7 +29,7 @@ rm -rf %{buildroot}
 
 %files
 %{_bindir}/cacert.pem
-%{_bindir}/config.ini
+%{_bindir}/config-sample.ini
 %{_bindir}/web-console
 %{_bindir}/web-console.service
 

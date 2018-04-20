@@ -7,7 +7,7 @@ rm -f web-console.spec
 
 # Remove dpkg-buildpackage tmp files
 pyinstaller web_console/app.py -F --name web-console
-cp -f config.ini dist/
+cp -f config-sample.ini dist/
 cp -f web-console.service dist/
 cp -f cacert.pem dist/
 

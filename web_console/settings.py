@@ -3,9 +3,10 @@
 import os
 import logging
 from configparser import ConfigParser, NoOptionError
+import paramiko
 
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
+paramiko.util.get_logger("paramiko").setLevel(logging.INFO)
 
 DEBUG = True
 
@@ -59,7 +60,10 @@ if os.path.isfile(config_path):
 
     try:
         DEBUG = config_parser.getboolean("MAIN", "DEBUG")
-        logger.debug("Using option %s = %s" % ("DEBUG", DEBUG))
+        logging.debug("Using option %s = %s" % ("DEBUG", DEBUG))
+        if DEBUG:
+            logging.basicConfig(level=logging.DEBUG)
+            paramiko.util.get_logger("paramiko").setLevel(logging.DEBUG)
     except NoOptionError:
         pass
 
@@ -70,26 +74,26 @@ if os.path.isfile(config_path):
 
     try:
         DEFAULT_REPLY = config_parser.get("MAIN", "DEFAULT_REPLY")
-        logger.debug("Using option %s = %s" % ("DEFAULT_REPLY", DEFAULT_REPLY))
+        logging.debug("Using option %s = %s" % ("DEFAULT_REPLY", DEFAULT_REPLY))
     except NoOptionError:
         pass
 
     try:
         ERRORS_TO = config_parser.get("MAIN", "ERRORS_TO")
-        logger.debug("Using option %s = %s" % ("ERRORS_TO", ERRORS_TO))
+        logging.debug("Using option %s = %s" % ("ERRORS_TO", ERRORS_TO))
     except NoOptionError:
         pass
 
     try:
         plugins_config = config_parser.get("MAIN", "PLUGINS")
         PLUGINS = plugins_config.split(",")
-        logger.debug("Using option %s = %s" % ("PLUGINS", PLUGINS))
+        logging.debug("Using option %s = %s" % ("PLUGINS", PLUGINS))
     except NoOptionError:
         pass
 
     try:
         SSH_USER = config_parser.get("SSH", "USER")
-        logger.debug("Using option %s = %s" % ("SSH_USER", SSH_USER))
+        logging.debug("Using option %s = %s" % ("SSH_USER", SSH_USER))
     except NoOptionError:
         pass
 
@@ -100,12 +104,12 @@ if os.path.isfile(config_path):
 
     try:
         SSH_PORT = config_parser.getint("SSH", "PORT")
-        logger.debug("Using option %s = %s" % ("SSH_PORT", SSH_PORT))
+        logging.debug("Using option %s = %s" % ("SSH_PORT", SSH_PORT))
     except NoOptionError:
         pass
 
-    logger.info("Successfully loaded config from ini file")
+        logging.info("Successfully loaded config from ini file")
 else:
-    logger.error("Failed to locate the config file: %s" % config_path)
+    logging.error("Failed to locate the config file: %s" % config_path)
 
 os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = os.path.join(os.getcwd(), 'cacert.pem')

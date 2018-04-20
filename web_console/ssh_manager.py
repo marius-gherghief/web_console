@@ -12,9 +12,6 @@ from web_console import settings
 from web_console.singleton import Singleton
 
 
-# import urllib
-
-
 class SlackSSHManager(Singleton):
     def __init__(self):
         self.ssh_user = None
@@ -41,6 +38,7 @@ class SlackSSHManager(Singleton):
         sh = None
         if user in self.ssh_clients:
             sh = self.ssh_clients[user]
+            logging.info("Searching for ssh session: %s" % sh.closed)
             if not sh.closed:
                 sh.message = message
                 return sh
@@ -56,6 +54,15 @@ class SlackSSHManager(Singleton):
 
         return sh
 
+    def delete_session(self, message):
+        user = message.body.get('user', '')
+        if not user:
+            user = message.body.get('username', '')
+            # if not user:
+            #     user = message.body['channel']
+        user = user + message.body['channel']
+        del self.ssh_clients[user]
+
 
 class ShellHandler:
 
@@ -66,21 +73,12 @@ class ShellHandler:
         self.ssh.connect(host, username=user, password=psw, port=port)
         self.home = expanduser("~")
         self.channel = self.ssh.invoke_shell()
-        # self.stdin = self.channel.makefile('wb')
-        # self.stdout = self.channel.makefile('r')
         self._message = msg
 
         self.reader = threading.Thread(target=self.read)
         self.reader.start()
         self._closed = False
-        # self.downloadManager = urllib.URLopener()
         logging.info("home dir: %s." % self.home)
-
-    def kill(self):
-        if self.ssh:
-            self._closed = True
-            self.ssh.close()
-            self.ssh = None
 
     def __del__(self):
         if self.ssh:
@@ -95,14 +93,12 @@ class ShellHandler:
             time.sleep(0.3)
 
     def execute(self, cmd, no_enter=False):
-        logging.info("Executing command: %s" % cmd)
-        try:
+        if not self.channel.closed:
+            logging.info("Executing command: %s" % cmd)
             if no_enter:
                 self.channel.send(cmd)
             else:
                 self.channel.send(cmd + '\n')
-        except socket.error:
-            self.kill()
 
     def execute_download(self, message):
         url = message.body['file']['url_private_download']
@@ -110,17 +106,12 @@ class ShellHandler:
         name = message.body['file']['name']
         r = requests.get(url, headers={'Authorization': 'Bearer %s' % settings.API_TOKEN}, stream=True)
         if r.status_code == 200:
-            # self.downloadManager.retrieve(url, self.home + '/' + name)
             with open(self.home + '/' + name, 'wb') as f:
-                for chunk in r.iter_content():
-                    f.write(chunk)
+                for chunk in r.iter_content(chunk_size=1024):
+                    if chunk:
+                        f.write(chunk)
 
             message.reply("File saved to: %s%s%s." % (self.home, '/', name))
-
-            # with open(self.home + '/' + name, 'wb') as f:
-            #      r.raw.decode_content = True
-            #      shutil.copyfileobj(r.raw, f)
-            #  message.reply("File saved to: %s." % f.pa)
 
     @property
     def message(self):
@@ -132,11 +123,13 @@ class ShellHandler:
 
     @property
     def closed(self):
-        return self._closed
+        return self._closed or self.channel.closed
 
     @closed.setter
     def closed(self, value):
         self._closed = value
+        if value:
+            self.channel.close()
 
 
 logging.info("Starting SSH Manager for user: %s, password: %s and port: %s" % (settings.SSH_USER,
@@ -144,7 +137,8 @@ logging.info("Starting SSH Manager for user: %s, password: %s and port: %s" % (s
                                                                                settings.SSH_PORT))
 _ssh_manager = SlackSSHManager()
 _ssh_manager.initialize_shell(settings.SSH_USER, settings.SSH_PASSWORD, settings.SSH_PORT)
-paramiko.util.log_to_file('slack_ssh_client.log')
+
+# paramiko.util.log_to_file('slack_ssh_client.log')
 
 
 def get_ssh_manager():
