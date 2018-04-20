@@ -30,12 +30,12 @@ if [ ! -f /opt/web-console/config.ini ]; then
     mv /opt/web-console/config-sample.ini /opt/web-console/config.ini
 fi
 
-if [ "$(pidof systemd)" ]; then
-    sed -i "s/WEB_CONSOLE_DIR/${current_dir}/g" web-console.service
-    mv -f web-console.service /etc/systemd/system/
-    systemctl enable web-console.service
-    systemctl daemon-reload
-    service web-console start
-else
-    echo "The process systemd is not running, skipping service installation"
-fi
+# if [ "$(pidof systemd)" ]; then
+sed -i "s/WEB_CONSOLE_DIR/${current_dir}/g" web-console.service
+mv -f web-console.service /etc/systemd/system/
+systemctl enable web-console.service
+systemctl daemon-reload
+service web-console start
+# else
+#     echo "The process systemd is not running, skipping service installation"
+# fi
