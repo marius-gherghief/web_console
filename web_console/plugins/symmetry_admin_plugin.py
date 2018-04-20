@@ -44,6 +44,7 @@ def ssh_reply(message):
     sh.execute(cmd)
 
 
+@listen_to('key .*', re.IGNORECASE)
 @respond_to('key .*', re.IGNORECASE)
 def ssh_key_commands(message):
     cmd = message.body['text']
