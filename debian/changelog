@@ -1,3 +1,10 @@
+
+web-console (0.1.2) unstable; urgency=medium
+
+  * Update key combinations
+
+ -- Marius Gherghief <marius.gherghief@gmail.com>  Fri, 20 Apr 2018 14:48:53 +0200
+
 web-console (0.1.1) unstable; urgency=medium
 
   * Initial public release.
