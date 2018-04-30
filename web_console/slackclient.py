@@ -16,8 +16,6 @@ from websocket import (
 
 from web_console.utils import to_utf8
 
-logger = logging.getLogger(__name__)
-
 
 class SlackClient(object):
     def __init__(self, token, bot_icon=None, bot_emoji=None, connect=True):
@@ -45,10 +43,10 @@ class SlackClient(object):
         while True:
             try:
                 self.rtm_connect()
-                logger.warning('reconnected to slack rtm websocket')
+                logging.warning('reconnected to slack rtm websocket')
                 return
             except Exception as e:
-                logger.exception('failed to reconnect: %s', e)
+                logging.exception('failed to reconnect: %s', e)
                 time.sleep(5)
 
     def parse_slack_login_data(self, login_data):
@@ -93,15 +91,15 @@ class SlackClient(object):
                 data += '{0}\n'.format(self.websocket.recv())
             except WebSocketException as e:
                 if isinstance(e, WebSocketConnectionClosedException):
-                    logger.warning('lost websocket connection, try to reconnect now')
+                    logging.warning('lost websocket connection, try to reconnect now')
                 else:
-                    logger.warning('websocket exception: %s', e)
+                    logging.warning('websocket exception: %s', e)
                 self.reconnect()
             except Exception as e:
                 if isinstance(e, SSLError) and e.errno == 2:
                     pass
                 else:
-                    logger.warning('Exception in websocket_safe_read: %s', e)
+                    logging.warning('Exception in websocket_safe_read: %s', e)
                 return data.rstrip()
 
     def rtm_read(self):

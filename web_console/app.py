@@ -3,20 +3,17 @@
 import logging
 import logging.config
 import sys
+import time
 
 from web_console.bot import Bot
 from web_console import settings
 
 
 def main():
-    kw = {
-        'format': '[%(asctime)s] %(message)s',
-        'datefmt': '%m/%d/%Y %H:%M:%S',
-        'level': logging.DEBUG if settings.DEBUG else logging.INFO,
-        'stream': sys.stdout,
-    }
-    logging.basicConfig(**kw)
-    logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.WARNING)
+    if settings.STARTUP_DELAY:
+        time.sleep(int(settings.STARTUP_DELAY))
+    else:
+        time.sleep(10)
 
     logging.info("Starting service web_console...")
 

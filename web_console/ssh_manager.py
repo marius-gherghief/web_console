@@ -1,6 +1,5 @@
 import logging
 import re
-import socket
 import threading
 import time
 from os.path import expanduser
@@ -38,9 +37,9 @@ class SlackSSHManager(Singleton):
         sh = None
         if user in self.ssh_clients:
             sh = self.ssh_clients[user]
-            logging.info("Searching for ssh session: %s" % sh.closed)
+            logging.info("Found ssh session: Closed = %s" % sh.closed)
             if not sh.closed:
-                sh.message = message
+                # sh.message = message
                 return sh
 
         if sh:
@@ -72,7 +71,7 @@ class ShellHandler:
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         self.ssh.connect(host, username=user, password=psw, port=port)
         self.home = expanduser("~")
-        self.channel = self.ssh.invoke_shell()
+        self.channel = self.ssh.invoke_shell()  # term='cygwin'
         self._message = msg
 
         self.reader = threading.Thread(target=self.read)
@@ -87,16 +86,18 @@ class ShellHandler:
     def read(self):
         while True:
             if self.channel.recv_ready():
-                data = '\t'.join(self.channel.recv(512).decode("utf-8").split(' '))
+                data = '\t'.join(self.channel.recv(200).decode("utf-8").split('    '))
                 chat_data = re.compile(r'\x1b[^m]*m')
+                # logging.info("RAW data: %s" % data)
                 self._message.reply(chat_data.sub('', data))
+                # self._message.reply(data)
             time.sleep(0.3)
 
     def execute(self, cmd, no_enter=False):
         if not self.channel.closed:
             logging.info("Executing command: %s" % cmd)
             if no_enter:
-                self.channel.send(cmd)
+                self.channel.send(cmd, )
             else:
                 self.channel.send(cmd + '\n')
 
@@ -117,9 +118,9 @@ class ShellHandler:
     def message(self):
         return self._message
 
-    @message.setter
-    def message(self, value):
-        self._message = value
+    # @message.setter
+    # def message(self, value):
+    #     self._message = value
 
     @property
     def closed(self):

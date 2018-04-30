@@ -71,4 +71,3 @@ def attach_reply(message):
     cmd = message.body['text']
     cmd = cmd[cmd.find('attach ') + 7:]
     message.channel.upload_file('', cmd.strip())
-

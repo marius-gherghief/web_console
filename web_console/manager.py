@@ -10,8 +10,6 @@ from web_console.utils import to_utf8
 
 from web_console import settings
 
-logger = logging.getLogger(__name__)
-
 
 class PluginsManager(object):
     def __init__(self):
@@ -37,7 +35,7 @@ class PluginsManager(object):
             from web_console.plugins import symmetry_admin_plugin
 
     def _load_plugins(self, plugin):
-        logger.info('loading plugin "%s"', plugin)
+        logging.info('loading plugin "%s"', plugin)
         path_name = None
 
         if PY2:
@@ -66,7 +64,7 @@ class PluginsManager(object):
                 import_module(module)
             except:
                 # TODO Better exception handling
-                logger.exception('Failed to import %s', module)
+                logging.exception('Failed to import %s', module)
 
     def get_plugins(self, category, text):
         has_matching_plugin = False

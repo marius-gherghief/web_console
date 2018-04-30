@@ -5,9 +5,6 @@ import logging
 from configparser import ConfigParser, NoOptionError
 import paramiko
 
-logging.basicConfig(level=logging.INFO)
-paramiko.util.get_logger("paramiko").setLevel(logging.INFO)
-
 DEBUG = True
 
 PLUGINS = [
@@ -60,6 +57,16 @@ if os.path.isfile(config_path):
 
     try:
         DEBUG = config_parser.getboolean("MAIN", "DEBUG")
+        kw = {
+            'format': '[%(asctime)s] %(message)s',
+            'datefmt': '%m/%d/%Y %H:%M:%S',
+            'level': logging.DEBUG if DEBUG else logging.INFO,
+            'filename': 'web-console.log',
+        }
+        logging.basicConfig(**kw)
+        logging.getLogger('requests.packages.urllib3.connectionpool').setLevel(logging.INFO if DEBUG else logging.WARNING)
+
+        paramiko.util.get_logger("paramiko").setLevel(logging.DEBUG if DEBUG else logging.INFO)
         logging.debug("Using option %s = %s" % ("DEBUG", DEBUG))
         if DEBUG:
             logging.basicConfig(level=logging.DEBUG)
@@ -69,6 +76,12 @@ if os.path.isfile(config_path):
 
     try:
         API_TOKEN = config_parser.get("MAIN", "API_TOKEN")
+    except NoOptionError:
+        pass
+
+    try:
+        STARTUP_DELAY = config_parser.get("MAIN", "STARTUP_DELAY")
+        logging.debug("Using option %s = %s" % ("STARTUP_DELAY", STARTUP_DELAY))
     except NoOptionError:
         pass
 

@@ -7,7 +7,7 @@ del /f web-console.wixobj
 del /f WebConsoleInstaller.msi
 del /f WebConsoleInstaller.wixpdb
 
-pyinstaller web_console/app.py -F --name web-console
+pyinstaller --noconsole --onefile web_console/app.py -F --name web-console
 copy /y config-sample.ini dist\config-sample.ini
 copy /y cacert.pem dist\cacert.pem
 

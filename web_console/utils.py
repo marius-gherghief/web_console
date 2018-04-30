@@ -5,14 +5,13 @@ import logging
 import tempfile
 import requests
 from contextlib import contextmanager
+
 from six.moves import _thread, range, queue
 import six
 
-logger = logging.getLogger(__name__)
-
 
 def download_file(url, fpath, token=''):
-    logger.debug('starting to fetch %s', url)
+    logging.debug('starting to fetch %s', url)
     headers = {"Authorization": "Bearer "+token} if token else None
     r = requests.get(url, stream=True, headers=headers)
     with open(fpath, 'wb') as f:
@@ -20,7 +19,7 @@ def download_file(url, fpath, token=''):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
                 f.flush()
-    logger.debug('fetch %s', fpath)
+        logging.debug('fetch %s', fpath)
     return fpath
 
 
@@ -38,8 +37,8 @@ def to_utf8(s):
     if six.PY2:
         if isinstance(s, str):
             return s
-        elif isinstance(s, unicode):
-            return s.encode('utf-8')
+        # elif isinstance(s, unicode):
+        #     return s.encode('utf-8')
         elif isinstance(s, (list, tuple, set)):
             return [to_utf8(v) for v in s]
         else:

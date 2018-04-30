@@ -12,8 +12,6 @@ from web_console.slackclient import SlackClient
 from web_console import settings
 from web_console.dispatcher import MessageDispatcher
 
-logger = logging.getLogger(__name__)
-
 
 class Bot(object):
     def __init__(self):
@@ -33,11 +31,11 @@ class Bot(object):
         self._dispatcher.start()
         self._client.rtm_connect()
         _thread.start_new_thread(self._keepactive, tuple())
-        logger.info('connected to slack RTM api')
+        logging.info('connected to slack RTM api')
         self._dispatcher.loop()
 
     def _keepactive(self):
-        logger.info('keep active thread started')
+        logging.info('keep active thread started')
         while True:
             time.sleep(30 * 60)
             self._client.ping()
@@ -47,7 +45,7 @@ def respond_to(matchstr, flags=0):
     def wrapper(func):
         PluginsManager.commands['respond_to'][
             re.compile(matchstr, flags)] = func
-        logger.info('registered respond_to plugin "%s" to "%s"', func.__name__,
+        logging.info('registered respond_to plugin "%s" to "%s"', func.__name__,
                     matchstr)
         return func
 
@@ -58,7 +56,7 @@ def listen_to(matchstr, flags=0):
     def wrapper(func):
         PluginsManager.commands['listen_to'][
             re.compile(matchstr, flags)] = func
-        logger.info('registered listen_to plugin "%s" to "%s"', func.__name__,
+        logging.info('registered listen_to plugin "%s" to "%s"', func.__name__,
                     matchstr)
         return func
 
@@ -83,7 +81,7 @@ def default_reply(*args, **kwargs):
     def wrapper(func):
         PluginsManager.commands['default_reply'][
             re.compile(matchstr, flags)] = func
-        logger.info('registered default_reply plugin "%s" to "%s"', func.__name__,
+        logging.info('registered default_reply plugin "%s" to "%s"', func.__name__,
                     matchstr)
         return func
 
