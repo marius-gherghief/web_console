@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="WebConsole" Language="1033" Version="0.1.1" Manufacturer="Symmetry Apps" UpgradeCode="974c7d90-48e0-48e4-898c-194b75debe2d">
+	<Product Id="*" Name="WebConsole" Language="1033" Version="0.1.5" Manufacturer="Symmetry Apps" UpgradeCode="974c7d90-48e0-48e4-898c-194b75debe2d">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
