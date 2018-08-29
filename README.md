@@ -14,8 +14,9 @@ A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https
 
 ## Installation
  * Download the correct distribution from the [Releases](https://github.com/symmetry-apps/web_console/releases) section.
-   * For **linux**, manual installation, download [web-console-0.1.1.zip](https://github.com/symmetry-apps/web_console/releases/download/0.1.1/web-console-0.1.1.zip)
-   * For **windows** automatic install, download [WebConsoleInstaller.msi](https://github.com/symmetry-apps/web_console/releases/download/0.1.1/WebConsoleInstaller.msi)
+   * For **linux debian distro**, download [web-console_0.1.5_amd64.deb](https://github.com/symmetry-apps/web_console/releases/download/0.1.5/web-console_0.1.5_amd64.deb)
+   * For **linux**, manual installation, download [web-console-0.1.5.zip](https://github.com/symmetry-apps/web_console/releases/download/0.1.5/web-console-0.1.1.zip)
+   * For **windows** automatic install, download [WebConsoleInstaller.msi](https://github.com/symmetry-apps/web_console/releases/download/0.1.5/WebConsoleInstaller.msi)
 
 ## Setup
  * Edit the file **config.ini** to adjust the settings inside.
@@ -27,3 +28,5 @@ A ssh console for [Slack](https://slack.com) forked from [lins05/slackbot](https
  * On **linux** after running the **postinst** script, the service **web-console** is configured to run at startup
  * On **windows** the web-console is run at startup. To adjust the **MobaSSH** settings, run the app from the Start Menu -> Web Console
  
+## Dubugging and logging
+ * On **linux**, look for the **web-console.log** file, under **/var/log/symmetry-apps/** folder.
